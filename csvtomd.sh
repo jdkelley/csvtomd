@@ -14,7 +14,7 @@ FILE=$1
 
 # --------- Check for updates -------------
 
-# git archive --remote=${remoteRepo} HEAD ${filename} | tar -x
+# git archive --remote=${remoteRepo} HEAD ${filename} | tar -x | bash
 
 # ---------- Install updates --------------
 
