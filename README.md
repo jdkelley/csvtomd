@@ -8,7 +8,7 @@ Currently, this will work by runnig `./csvtomd.sh <path to csv file>`
 
 At the moment format of the csv file should be like in [`example/test.csv`][test_csv].
 
-## Deployed
+## In Docker
 
 `csvtomd` is available in a Docker container on [dockerhub][dockerhub].
 

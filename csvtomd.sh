@@ -20,6 +20,12 @@ FILE=$1
 
 # ---------------- Install ---------------- 
 
+function install_script_at_location {
+    local LOCATION="${1}"
+    echo -e "Installing as ${LOCATION:-/usr/bin}/csvtomd"
+    cp csvtomd.sh "${LOCATION:-/usr/bin}"/csvtomd
+}
+
 # --------------- Uninstall ---------------
 
 ## WARNING - Heads Up! Deletes 1st argument.
@@ -79,6 +85,7 @@ function convertCSVToMDtoTable {
 #  --------------- Main  --------------- 
 
 function main {
+    #install_script_at_location
     #uninstall_script
     convertCSVToMDtoTable $FILE
 }

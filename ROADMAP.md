@@ -2,18 +2,20 @@
 
 ## While WIP
 
-* Actual flags
-    * help
+* Add some actual flags
+    * help (-h) (subcommand: `help`)
     * File should be main argument
-    * filename ending to add (Like `_table` or something`)
-* Install
-* Uninstall
-* Update
+    * filename ending to add (Like `_table` or something`) (-z)
+    * Install (subcommand: `install`,`Install`)
+    * Uninstall (subcommand: `uninstall`,`Uninstall`)
+    * version (-v) (subcommand: `version`,`Version`)
+* Uninstall functionality
+* Update functionality
 
 
 ----
 
 ## Longer term
 
-* Write this in a "real" language. I'm trying to decide between python, go, or rust.
 * Fix SEPARATOR Problem.
+* Write this in a "real" language. I'm trying to decide between python, go, or rust.
