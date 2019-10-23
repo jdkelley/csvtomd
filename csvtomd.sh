@@ -21,9 +21,9 @@ FILE=$1
 # ---------------- Install ---------------- 
 
 function install_script_at_location {
-    local LOCATION="${1}"
-    echo -e "Installing as ${LOCATION:-/usr/bin}/csvtomd"
-    cp csvtomd.sh "${LOCATION:-/usr/bin}"/csvtomd
+    local LOCATION="${1:-/usr/local/bin}"
+    echo -e "Installing as ${LOCATION}/csvtomd"
+    cp csvtomd.sh "${LOCATION}"/csvtomd
 }
 
 # --------------- Uninstall ---------------
