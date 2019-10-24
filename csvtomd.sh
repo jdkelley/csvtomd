@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-SCRIPT_NAME="${0}"
 ME=$(basename "${0}")
 
 # ----------------- Config ----------------
@@ -53,7 +52,7 @@ function install_script {
 
 ## WARNING - Heads Up! Deletes 1st argument.
 function delete_script {
-    echo -e "\Deleting  ...\n"
+    echo "Deleting  ..."
     rm "$1"
 }
 
@@ -62,13 +61,12 @@ function cancel_delete_script {
 }
 
 function print_uninstall_warning_and_uninstall { 
-    echo -e "\nYou are about to remove script:\n\n\t${1}/${SCRIPT_NAME}\n\n"
+    echo -e "\nYou are about to remove script:\n\n\t${1}/${ME}\n\n"
     read -r -p "Are you sure? [y/N] " response
     case "$response" in
         [yY][eE][sS]|[yY]) 
-            # comment out for safety for right now. 
-            # delete_script
-            echo "You chose delete_script"
+            delete_script "${1}/${ME}"
+            echo "${1}/${ME} deleted"
             ;;
         *)
             cancel_delete_script
@@ -151,7 +149,7 @@ case "${subcommand}" in
         exit 0
     ;;
     uninstall )
-        print_uninstall_warning_and_uninstall
+        uninstall_script
         exit 0
     ;;
 esac
