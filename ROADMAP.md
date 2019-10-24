@@ -7,6 +7,7 @@
     * addFileEnding
     * Seperator
 * Update functionality
+* Add install.sh for `curl|bash` install.
 
 ----
 
