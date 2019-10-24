@@ -3,15 +3,11 @@
 ## While WIP
 
 * Add some actual flags
-    * help (-h) (subcommand: `help`)
-    * File should be main argument
-    * filename ending to add (Like `_table` or something`) (-z)
-    * Install (subcommand: `install`,`Install`)
-    * Uninstall (subcommand: `uninstall`,`Uninstall`)
-    * version (-v) (subcommand: `version`,`Version`)
-* Uninstall functionality
+    * filename ending to add (Like `_table` or something`) (-z)`)
+    * addFileEnding
+    * Seperator
+* activate functionality
 * Update functionality
-
 
 ----
 
