@@ -4,9 +4,27 @@ This tool converts a CSV table into a markdown formatted table.
 
 ## Usage
 
-Currently, this will work by runnig `./csvtomd.sh <path to csv file>`
+Currently, this will work by runnig `csvtomd.sh <path to csv file>`
 
 At the moment format of the csv file should be like in [`example/test.csv`][test_csv].
+
+## Install
+
+Clone down the repository and install with:
+
+```sh
+./csvtomd.sh install
+```
+
+After this, the command `csvtomd` will be in your path and you can use it as `csvtomd example/test.csv`.
+
+## Uninstall
+
+To uninstall, run
+
+```sh
+csvtomd uninstall
+```
 
 ## In Docker
 

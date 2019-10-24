@@ -6,7 +6,6 @@
     * filename ending to add (Like `_table` or something`) (-z)`)
     * addFileEnding
     * Seperator
-* activate functionality
 * Update functionality
 
 ----
