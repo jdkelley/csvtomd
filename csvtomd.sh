@@ -1,24 +1,33 @@
 #!/usr/bin/env bash
 
+# csvtomd
+# version 0.0.2
+# Copyright (C) 2019 Joshua D Kelley
+# https://github.com/jdkelley/csvtomd"
+
 ME=$(basename "${0}")
 
 # ----------------- Config ----------------
 
-SCRIPT_VERSION="0.0.1"
+SCRIPT_VERSION="0.0.2"
+INSTALL_INSTALL_LOCATION="/usr/local/bin"
+CSV_FILENAME=""
 
 # ----------------- Print -----------------
 
-function print_version() {
-    echo -e "csvtomd, version ${SCRIPT_VERSION}\nCopyright (C) 2019 Joshua D Kelley\nhttps://github.com/jdkelley/csvtomd"
+print_version() {
+    echo -ne "${SCRIPT_VERSION}\n"
 }
 
-function print_usage() {
+print_usage() {
     echo "Usage:"
-    echo "  ${ME} [-hv] [subcommand] <csv file to convert>"
+    echo "  ${ME} [-hv]"
+    echo "  ${ME} [subcommand]"
+    echo "  ${ME} <csv file to convert>"
     echo
     echo "Description:"
     echo
-    echo "   some text here"
+    echo "   Converts csv file to markdown table (pipe-separated)."
     echo
     echo "The subcommands are as follows:"
     echo "   help       Display help message."
@@ -27,9 +36,9 @@ function print_usage() {
     echo "   uninstall  Uninstalls ${ME}."
     echo
     echo "The options are as follows:"
-    echo "   -h,-H Display help message."
-    echo "   -v,-V Prints ${ME} version."
-    echo -e "\n\n"
+    echo "   -h         Display help message."
+    echo "   -v         Prints ${ME} version."
+    echo
 }
 
 ### TODO
@@ -42,25 +51,24 @@ function print_usage() {
 
 # ---------------- Install ---------------- 
 
-function install_script {
-    local LOCATION="/usr/local/bin"
-    echo "Installing as ${LOCATION}/csvtomd"
-    cp csvtomd.sh "${LOCATION}"/csvtomd
+install_script() {
+    echo "Installing as ${INSTALL_LOCATION}/csvtomd"
+    cp csvtomd.sh "${INSTALL_LOCATION}"/csvtomd
 }
 
 # --------------- Uninstall ---------------
 
 ## WARNING - Heads Up! Deletes 1st argument.
-function delete_script {
+delete_script() {
     echo "Deleting  ..."
     rm "$1"
 }
 
-function cancel_delete_script {
+cancel_delete_script() {
     echo -e "\nExiting ...\n"
 }
 
-function print_uninstall_warning_and_uninstall { 
+print_uninstall_warning_and_uninstall() { 
     echo -e "\nYou are about to remove script:\n\n\t${1}/${ME}\n\n"
     read -r -p "Are you sure? [y/N] " response
     case "$response" in
@@ -74,87 +82,88 @@ function print_uninstall_warning_and_uninstall {
     esac
 }
 
-function uninstall_script {
+uninstall_script() {
     SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
     print_uninstall_warning_and_uninstall "$SCRIPT_DIR"
 }
 
 # --------------- Convert --------------- 
 
-function removeCSVEnding {
+remove_csv_ending() {
     local filename="${1}"
     echo "$filename" | sed 's/.csv//'
 }
 
-function renameFileCSVToMD {
+rename_file_csv_to_md() {
     local filename="${1}"
-    local trimmedFilename=$(removeCSVEnding "${filename}")
+    local trimmedFilename=$(remove_csv_ending "${filename}")
     echo "$trimmedFilename""${addFileEnding}"".md"
 }
 
-function convertCSVToMDtoTable {
-    local filename="${1}"
-    mdFilename=$(renameFileCSVToMD "${filename}")
-    echo "${mdFilename}"
+#  --------------- Init & Main  --------------- 
 
-    tr -d '\r' < "${filename}" \
-        | sed 's/,/ | /g' \
-        | sed 's/^/|  /'  \
-        | sed 's/$/ |/'   \
-        | sed 's/SEPARATOR/ :--- /g' > $mdFilename
-}
+get_options() {
+    local OPTIND opt
+    while getopts ":hHvV" opt; do
+        case "${opt}" in
+            [vV] )
+                print_version
+                exit 0
+            ;;
+            [hH] )
+                print_usage
+                exit 0
+            ;;
+            \? ) 
+                print_usage
+                exit 1
+            ;;
+        esac
+    done
 
-#  --------------- Main  --------------- 
+    # shift command and drop first arg.
+    subcommand="${1}"
+    shift 
 
-function main {
-    file_to_convert="${1}"
-    convertCSVToMDtoTable "$file_to_convert"
-}
-
-# ----------------- Flags ----------------- 
-
-while getopts ":hHvV" opt; do
-    case "${opt}" in
-        [vV] )
+    echo "subcommand: $subcommand"
+    case "${subcommand}" in
+        [hH][eEaA][lL][pP] )
+            print_usage
+            exit 0
+        ;;
+        [vV][eE][rR][sS][iI][oO][nN] )
             print_version
             exit 0
         ;;
-        [hH] )
-            print_usage
+        install )
+            install_script
             exit 0
         ;;
-        \? ) 
-            print_usage
-            exit 1
+        uninstall )
+            uninstall_script
+            exit 0
         ;;
     esac
-done
 
-# shift command and drop first arg.
-subcommand="${1}"
-shift 
+    # Argument did not match a known subcommand so it is the csv file
+    CSV_FILENAME="${subcommand}"
+}
 
-echo "subcommand: $subcommand"
-case "${subcommand}" in
-    [hH][eEaA][lL][pP] )
-        print_usage
-        exit 0
-    ;;
-    [vV][eE][rR][sS][iI][oO][nN] )
-        print_version
-        exit 0
-    ;;
-    install )
-        install_script
-        exit 0
-    ;;
-    uninstall )
-        uninstall_script
-        exit 0
-    ;;
-esac
+main() {
+    get_options "$@"
+    _MD_FILENAME=$(rename_file_csv_to_md "${CSV_FILENAME}")
+    
+    # Debug
+    # echo "_MD_FILENAME:  ${_MD_FILENAME}"
+    # echo "_CSV_FILENAME: ${CSV_FILENAME}"
 
-# Argument did not match a known subcommand so it is the csv file
-csv_file="${subcommand}"
+    tr -d '\r' < "${CSV_FILENAME}" \
+        | sed 's/,/ | /g' \
+        | sed 's/^/|  /'  \
+        | sed 's/$/ |/'   \
+        | sed 's/SEPARATOR/ :--- /g' > $_MD_FILENAME
 
-main "${csv_file}"
+    exit 0
+}
+
+main "$@"

@@ -6,8 +6,8 @@
     * filename ending to add (Like `_table` or something`) (-z)`)
     * addFileEnding
     * Seperator
-* Update functionality
 * Add install.sh for `curl|bash` install.
+* fix install location issue (either leave it up to the user or install in a more acceptable place like ~/bin)
 
 ----
 
