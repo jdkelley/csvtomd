@@ -8,6 +8,7 @@
     * Seperator
 * Add install.sh for `curl|bash` install.
 * fix install location issue (either leave it up to the user or install in a more acceptable place like ~/bin)
+* Handle piped in data.
 
 ----
 
